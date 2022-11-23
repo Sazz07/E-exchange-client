@@ -5,8 +5,6 @@ const Navbar = () => {
 
     const menuItem = <React.Fragment>
         <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/home'>Home</Link></li>
-        <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/appointment'>Appointment</Link></li>
-        <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/about'>About</Link></li>
         <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/dashboard'>Dashboard</Link></li>
         <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><button>Sign Out</button></li>
         <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><Link to='/login'>Login</Link></li>
