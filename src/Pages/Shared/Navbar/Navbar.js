@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.error(error));
+    }
 
     const menuItem = <React.Fragment>
         <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/home'>Home</Link></li>
         <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/blog'>Blog</Link></li>
         <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/dashboard'>Dashboard</Link></li>
-        <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><button>Sign Out</button></li>
+        <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><button onClick={handleLogout}>Sign Out</button></li>
         <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><Link to='/login'>Login</Link></li>
     </React.Fragment>
 
