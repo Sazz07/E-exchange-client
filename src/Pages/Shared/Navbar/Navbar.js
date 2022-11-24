@@ -14,9 +14,14 @@ const Navbar = () => {
     const menuItem = <React.Fragment>
         <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/home'>Home</Link></li>
         <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/blog'>Blog</Link></li>
-        <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/dashboard'>Dashboard</Link></li>
-        <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><button onClick={handleLogout}>Sign Out</button></li>
-        <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><Link to='/login'>Login</Link></li>
+        {user?.uid ?
+            <>
+                <li className='hover:bg-gradient-to-r from-primary to-secondary hover:text-white'><Link to='/dashboard'>Dashboard</Link></li>
+                <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><button onClick={handleLogout}>Sign Out</button></li>
+            </>
+            :
+            <li className='bg-gradient-to-r from-secondary to-primary text-white rounded-lg'><Link to='/login'>Login</Link></li>
+        }
     </React.Fragment>
 
     return (
@@ -30,7 +35,7 @@ const Navbar = () => {
                         {menuItem}
                     </ul>
                 </div>
-                <Link className="btn btn-ghost normal-case text-xl bg-gradient-to-r from-secondary to-primary text-white">E-Exchange</Link>
+                <Link to='/' className="btn btn-ghost normal-case text-xl bg-gradient-to-r from-secondary to-primary text-white">E-Exchange</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">

@@ -1,8 +1,20 @@
-import React from 'react';
-import { Link, useRouteError } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate, useRouteError } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const ErrorElement = () => {
+    const { logOut } = useContext(AuthContext);
     const error = useRouteError();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logOut()
+            .then(() => {
+                navigate('/login');
+            })
+            .catch(error => console.error(error))
+    }
+
     return (
         <div className="bg-gradient-to-r from-purple-300 to-blue-200">
             <div className="w-9/12 m-auto py-16 min-h-screen flex items-center justify-center">
@@ -16,7 +28,7 @@ const ErrorElement = () => {
                                 HOME
                             </button>
                         </Link>
-                        <button className="bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-500 text-white font-semibold px-6 py-3 rounded-md">
+                        <button onClick={handleLogout} className="bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-500 text-white font-semibold px-6 py-3 rounded-md">
                             Sign Out
                         </button>
                     </div>
