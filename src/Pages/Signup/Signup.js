@@ -16,10 +16,10 @@ const Signup = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
-                toast.success('User created successfully')
+                toast.success('User created successfully');
                 const userInfo = {
                     displayName: data.name
-                }
+                };
                 updateUser(userInfo)
                     .then(() => { })
                     .catch(error => console.error(error))
@@ -28,6 +28,7 @@ const Signup = () => {
                 console.error(error);
                 setSignUpError(error.message);
             });
+            reset();
     }
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">

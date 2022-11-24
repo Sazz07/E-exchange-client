@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const Login = () => {
+    const { signIn, loading, setLoading } = useContext(AuthContext);
+    const [signInError, setSignInError] = useState('');
+
+    const handleLoginSubmit = event => {
+        event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const role = form.role.value;
+
+        console.log(email, password, role);
+
+        signIn(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                toast.success('Login Successfully');
+            })
+            .catch(error => {
+                console.error(error);
+                toast.error(error.message);
+                setLoading(false);
+            });
+    }
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
             <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
@@ -16,7 +43,7 @@ const Login = () => {
                     </div>
                 </div>
                 <div className="mt-10">
-                    <form action="#">
+                    <form onSubmit={handleLoginSubmit}>
                         <div className="flex flex-col mb-6">
                             <label htmlFor="email" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">E-Mail Address:</label>
                             <div className="relative">
@@ -45,7 +72,7 @@ const Login = () => {
                         </div>
                         <div className="flex flex-col mb-6">
                             <label htmlFor="password" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">What you want to be?:</label>
-                            <select className="select select-bordered text-sm sm:text-base pr-4 rounded-lg border border-gray-400 w-full py-2">
+                            <select name='role' className="select select-bordered text-sm sm:text-base pr-4 rounded-lg border border-gray-400 w-full py-2">
                                 <option defaultValue>User</option>
                                 <option>Seller</option>
                             </select>
