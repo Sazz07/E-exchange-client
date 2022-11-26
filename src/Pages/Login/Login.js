@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const Login = () => {
-    const { signIn, loading, setLoading } = useContext(AuthContext);
-    const [signInError, setSignInError] = useState('');
+    const { signIn, loading, setLoading, signInWithGoogle } = useContext(AuthContext);
+    const [error, setError] = useState('');
 
     const handleLoginSubmit = event => {
         event.preventDefault();
@@ -27,15 +27,35 @@ const Login = () => {
                 toast.error(error.message);
                 setLoading(false);
             });
-    }
+    };
+
+    // Google Sign In
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                toast.success('Login Successfully.');
+            })
+            .catch(error => {
+                console.error(error);
+                setError(error.message);
+            });
+    };
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
             <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
                 <div className="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">Login To Your Account</div>
-                <button className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+                <button 
+                onClick={handleGoogleSignIn}
+                className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                     <span className="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500"><i className="fab fa-facebook-f"></i></span>
-                    <span>Login with Google</span>
+                    <span className='flex justify-center items-center'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google" viewBox="0 0 16 16"> <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" /> </svg>
+                        <span className='ml-2'>Login With Google</span>
+                    </span>
                 </button>
                 <div className="relative mt-10 h-px bg-gray-300">
                     <div className="absolute left-0 top-0 flex justify-center w-full -mt-2">
@@ -70,13 +90,7 @@ const Login = () => {
                                 <input type="password" name="password" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" />
                             </div>
                         </div>
-                        <div className="flex flex-col mb-6">
-                            <label htmlFor="password" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">What you want to be?:</label>
-                            <select name='role' className="select select-bordered text-sm sm:text-base pr-4 rounded-lg border border-gray-400 w-full py-2">
-                                <option defaultValue>User</option>
-                                <option>Seller</option>
-                            </select>
-                        </div>
+
 
                         {/* <div className="flex items-center mb-6 -mt-4">
                             <div className="flex ml-auto">
@@ -94,6 +108,7 @@ const Login = () => {
                                     </svg>
                                 </span>
                             </button>
+                            {error && <p className='text-rose-600'>{error}</p>}
                         </div>
                     </form>
                 </div>
@@ -106,7 +121,7 @@ const Login = () => {
                                 <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                             </svg>
                         </span>
-                        <span className="ml-2">You don't have an account? Sign Up Now</span>
+                        <span className="ml-2">You don't have an account? <span className='underline'>Sign Up Now</span></span>
                     </Link>
                 </div>
             </div>
