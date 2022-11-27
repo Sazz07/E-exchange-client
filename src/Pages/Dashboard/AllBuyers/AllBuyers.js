@@ -1,14 +1,15 @@
-import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 
 const AllBuyers = () => {
-    const [buyers, setBuyers] = useState([]);
-    useEffect(() => {
-        axios.get('http://localhost:5000/users')
-            .then((res) => {
-                setBuyers(res.data);
-            })
-    }, [])
+    const { data: buyers = [], refetch } = useQuery({
+        queryKey: ['buyers'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5000/users/buyer/buyer')
+            const data = await res.json();
+            return data;
+        }
+    })
 
     return (
         <div>
@@ -26,7 +27,6 @@ const AllBuyers = () => {
                     <tbody>
                         { 
                             buyers.map((buyer, i) =>
-                            !buyer.role &&
                             <tr key={buyer._id}
                                     className='hover'>
                                     <th>{i + 1}</th>

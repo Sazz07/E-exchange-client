@@ -3,13 +3,15 @@ import React from 'react';
 
 const AllSellers = () => {
     const { data: sellers = [], refetch } = useQuery({
-        queryKey: ['users'],
+        queryKey: ['sellers'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/users')
+            const res = await fetch('http://localhost:5000/users/seller/seller')
             const data = await res.json();
             return data;
         }
     })
+
+    console.log(sellers);
     return (
         <div>
             <h3 className='text-3xl my-8 text-center'>All Sellers</h3>
@@ -27,7 +29,6 @@ const AllSellers = () => {
                     <tbody>
                         {
                             sellers.map((seller, i) => 
-                            seller.role &&
                             <tr key={seller._id}
                             className='hover'>
                                 <th>{i + 1}</th>

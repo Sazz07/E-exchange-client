@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
@@ -7,7 +6,6 @@ import useToken from '../../hooks/useToken';
 
 
 const Signup = () => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const { createUser, updateUser, signInWithGoogle } = useContext(AuthContext);
     const [error, setError] = useState('');
     const [signUpEmail, setSignUpEmail] = useState('');
@@ -18,20 +16,27 @@ const Signup = () => {
         navigate('/');
     }
 
-    const handleSignUp = data => {
-        console.log(data);
+    const handleSignUp = event => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const role = form.role.value;
+
+        // console.log(email, password, role, name);
         setError('');
-        createUser(data.email, data.password)
+        createUser(email, password)
             .then(result => {
                 const user = result.user;
                 console.log(user);
                 toast.success('Congratulation. Sign Up complete.');
                 const userInfo = {
-                    displayName: data.name
+                    displayName: name
                 };
                 updateUser(userInfo)
                     .then(() => {
-                        saveUser(data.name, data.email, data.role);
+                        saveUser(name, email, role);
                     })
                     .catch(error => console.error(error))
             })
@@ -39,7 +44,7 @@ const Signup = () => {
                 console.error(error);
                 setError(error.message);
             });
-        reset();
+        
     };
 
     // handle Google Sign in
@@ -50,7 +55,7 @@ const Signup = () => {
                 const user = result.user;
                 console.log(user);
                 setSignUpEmail(user?.email);
-                saveUser(user?.displayName, user?.email, 'User');
+                saveUser(user?.displayName, user?.email, 'buyer');
                 toast.success('Congratulation. Sign Up complete.');
             })
             .catch(error => console.error(error));
@@ -97,9 +102,9 @@ const Signup = () => {
                     </div>
                 </div>
                 <div className="mt-10">
-                    <form onSubmit={handleSubmit(handleSignUp)}>
+                    <form onSubmit={handleSignUp}>
                         <div className="flex flex-col mb-6">
-                            <label htmlFor="email" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Name:</label>
+                            <label htmlFor="name" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Name:</label>
                             <div className="relative">
                                 <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
                                     <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,11 +112,9 @@ const Signup = () => {
                                     </svg>
                                 </div>
                                 <input type="text"
-                                    {...register("name", {
-                                        required: 'Name is Required'
-                                    })}
-                                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Enter Your Name" />
-                                {errors.name && <p className='text-red-600 text-sm'>{errors?.name.message}</p>}
+                                    name='name'
+                                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" required placeholder="Enter Your Name" />
+                                
                             </div>
                         </div>
                         <div className="flex flex-col mb-6">
@@ -123,11 +126,9 @@ const Signup = () => {
                                     </svg>
                                 </div>
                                 <input type="email"
-                                    {...register("email", {
-                                        required: true
-                                    })}
-                                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" />
-                                {errors.email && <p className='text-red-600 text-sm'>{errors?.email.message}</p>}
+                                    name='email'
+                                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" required/>
+                                
                             </div>
                         </div>
                         {/* <div className='flex flex-col mb-6"'>
@@ -154,25 +155,19 @@ const Signup = () => {
                                 </div>
                                 <input
                                     type="password"
-                                    {...register("password", {
-                                        required: "Password is required",
-                                        minLength: { value: 6, message: "Password must be 6 characters long" },
-                                        pattern: { value: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: 'Password must have uppercase number and special characters' }
-                                    })}
-                                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" />
-                                {errors.password && <p className='text-rose-700 text-sm'>{errors?.password.message}</p>}
+                                    name='password'
+                                    className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" required/>
+                                
                             </div>
                         </div>
 
                         <div className="flex flex-col mb-6">
                             <label htmlFor="role" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">What you want to be?:</label>
-                            <select
-                                {...register("role", {
-                                    required: true
-                                })}
-                                className="select select-bordered text-sm sm:text-base pr-4 rounded-lg border border-gray-400 w-full py-2">
-                                <option defaultValue>User</option>
-                                <option>Seller</option>
+                            <select type="text"
+                                name='role'
+                                className="select select-bordered text-sm sm:text-base pr-4 rounded-lg border border-gray-400 w-full py-2" required>
+                                <option defaultValue>buyer</option>
+                                <option>seller</option>
                             </select>
                         </div>
 
