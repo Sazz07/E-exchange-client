@@ -165,7 +165,7 @@ const Signup = () => {
                         </div>
 
                         <div className="flex flex-col mb-6">
-                            <label htmlFor="password" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">What you want to be?:</label>
+                            <label htmlFor="role" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">What you want to be?:</label>
                             <select
                                 {...register("role", {
                                     required: true
