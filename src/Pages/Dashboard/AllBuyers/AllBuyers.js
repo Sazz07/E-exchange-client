@@ -10,7 +10,6 @@ const AllBuyers = () => {
             })
     }, [])
 
-    console.log(buyers);
     return (
         <div>
             <h3 className='text-3xl my-8 text-center'>All Buyers</h3>

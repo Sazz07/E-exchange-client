@@ -1,6 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 const AllSellers = () => {
+    const { data: sellers = [], refetch } = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5000/users')
+            const data = await res.json();
+            return data;
+        }
+    })
     return (
         <div>
             <h3 className='text-3xl my-8 text-center'>All Sellers</h3>
@@ -16,13 +25,18 @@ const AllSellers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className='hover'>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>Blue</td>
-                            <td><button className='btn btn-xs btn-secondary'>Delete</button></td>
-                        </tr>
+                        {
+                            sellers.map((seller, i) => 
+                            seller.role &&
+                            <tr key={seller._id}
+                            className='hover'>
+                                <th>{i + 1}</th>
+                                <td>{seller.name}</td>
+                                <td>{seller.email}</td>
+                                <td><button className='btn btn-xs btn-primary text-white'>Verify Seller</button></td>
+                                <td><button className='btn btn-xs btn-secondary font-bold'>Delete</button></td>
+                            </tr>)
+                        }
                     </tbody>
                 </table>
             </div>

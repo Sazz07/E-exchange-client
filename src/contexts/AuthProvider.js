@@ -38,6 +38,7 @@ const AuthProvider = ({ children }) => {
     // 5. Logout
     const logOut = () => {
         setLoading(true);
+        localStorage.removeItem('resaleToken');
         return signOut(auth);
     }
 

@@ -1,25 +1,36 @@
 import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const Login = () => {
     const { signIn, loading, setLoading, signInWithGoogle } = useContext(AuthContext);
     const [error, setError] = useState('');
+    const [loginEmail, setLoginEmail] = useState('');
+    const [token] = useToken(loginEmail);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const from = location.state?.from?.pathname || '/';
+
+    if(token) {
+        navigate(from, {replace: true});
+    }
 
     const handleLoginSubmit = event => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        const role = form.role.value;
 
-        console.log(email, password, role);
+        console.log(email, password);
 
         signIn(email, password)
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                setLoginEmail(email);
                 toast.success('Login Successfully');
             })
             .catch(error => {
@@ -35,7 +46,7 @@ const Login = () => {
         signInWithGoogle()
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                setLoginEmail(user?.email);
                 toast.success('Login Successfully.');
             })
             .catch(error => {
@@ -73,7 +84,7 @@ const Login = () => {
                                     </svg>
                                 </div>
 
-                                <input type="email" name="email" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" />
+                                <input type="email" name="email" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" required />
                             </div>
                         </div>
                         <div className="flex flex-col mb-6">
@@ -87,7 +98,7 @@ const Login = () => {
                                     </span>
                                 </div>
 
-                                <input type="password" name="password" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" />
+                                <input type="password" name="password" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" required/>
                             </div>
                         </div>
 
@@ -108,7 +119,6 @@ const Login = () => {
                                     </svg>
                                 </span>
                             </button>
-                            {error && <p className='text-rose-600'>{error}</p>}
                         </div>
                     </form>
                 </div>
