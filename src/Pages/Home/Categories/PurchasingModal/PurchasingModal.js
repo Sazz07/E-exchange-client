@@ -18,6 +18,7 @@ const PurchasingModal = ({ product, setProduct, refetch }) => {
 
         const order = {
             productName,
+            photo,
             userName: name,
             email,
             phone,

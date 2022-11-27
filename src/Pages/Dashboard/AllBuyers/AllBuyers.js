@@ -1,6 +1,16 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const AllBuyers = () => {
+    const [buyers, setBuyers] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:5000/users')
+            .then((res) => {
+                setBuyers(res.data);
+            })
+    }, [])
+
+    console.log(buyers);
     return (
         <div>
             <h3 className='text-3xl my-8 text-center'>All Buyers</h3>
@@ -15,12 +25,17 @@ const AllBuyers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className='hover'>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td><button className='btn btn-xs btn-secondary'>Delete</button></td>
-                        </tr>
+                        { 
+                            buyers.map((buyer, i) =>
+                            !buyer.role &&
+                            <tr key={buyer._id}
+                                    className='hover'>
+                                    <th>{i + 1}</th>
+                                    <td>{buyer.name}</td>
+                                    <td>{buyer.email}</td>
+                                    <td><button className='btn btn-xs btn-secondary'>Delete</button></td>
+                                </tr>)
+                        }
                     </tbody>
                 </table>
             </div>
