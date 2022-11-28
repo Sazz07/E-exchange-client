@@ -166,8 +166,8 @@ const Signup = () => {
                             <select type="text"
                                 name='role'
                                 className="select select-bordered text-sm sm:text-base pr-4 rounded-lg border border-gray-400 w-full py-2" required>
-                                <option defaultValue>buyer</option>
-                                <option>seller</option>
+                                <option value="buyer">buyer</option>
+                                <option value="seller">seller</option>
                             </select>
                         </div>
 

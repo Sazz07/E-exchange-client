@@ -5,7 +5,10 @@ import Blog from "../../Pages/Blog/Blog";
 import AddProducts from "../../Pages/Dashboard/AddProducts/AddProducts";
 import AllBuyers from "../../Pages/Dashboard/AllBuyers/AllBuyers";
 import AllSellers from "../../Pages/Dashboard/AllSellers/AllSellers";
+import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import MyOrders from "../../Pages/Dashboard/MyOrders/MyOrders";
+import MyProducts from "../../Pages/Dashboard/MyProducts/MyProducts";
+import Payment from "../../Pages/Dashboard/Payment/Payment";
 import CategoryProduct from "../../Pages/Home/Categories/CategoryProduct/CategoryProduct";
 import Home from "../../Pages/Home/Home/Home";
 import Summary from "../../Pages/Home/Summary/Summary";
@@ -46,7 +49,7 @@ const router = createBrowserRouter([
             {
                 path: '/category/:id',
                 element: <CategoryProduct></CategoryProduct>,
-                loader: ({params}) => fetch(`http://localhost:5000/category/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/category/${params.id}`)
             },
         ]
     },
@@ -60,6 +63,10 @@ const router = createBrowserRouter([
                 element: <MyOrders></MyOrders>
             },
             {
+                path: '/dashboard/myproduct',
+                element: <MyProducts></MyProducts>
+            },
+            {
                 path: '/dashboard/allsellers',
                 element: <AllSellers></AllSellers>
             },
@@ -70,6 +77,15 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/allbuyers',
                 element: <AllBuyers></AllBuyers>
+            },
+            {
+                path: '/dashboard/allusers',
+                element: <AllUsers></AllUsers>
+            },
+            {
+                path: '/dashboard/payment/:id',
+                element: <Payment></Payment>,
+                loader: ({ params }) => fetch(`http://localhost:5000/orders/${params.id}`)
             },
         ]
     }

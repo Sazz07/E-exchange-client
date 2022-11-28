@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
 import Loading from '../../Shared/Loading/Loading';
 
 const AddProducts = () => {
+    const { user } = useContext(AuthContext);
     const { register, handleSubmit } = useForm();
 
     const { data: categories = [], isLoading } = useQuery({
@@ -37,11 +39,17 @@ const AddProducts = () => {
                     console.log(imgData.data.url);
                     const product = {
                         productName: data.productName,
+                        email: user?.email,
                         photo: imgData.data.url,
+                        seller_name: user?.displayName,
                         description: data.description,
                         categoryName: data.category,
                         location: data.location,
                         resale_price: data.resale_price,
+                        original_price: data.original_price,
+                        condition: data.condition,
+                        purchase_year: data.purchase_year,
+                        years_use: data.years_use
                     }
 
                     // save products information to the database
@@ -58,12 +66,12 @@ const AddProducts = () => {
                             console.log(result);
                             toast.success(`${data.productName} is added successfully`);
                             // navigate('/dashboard/myproducts')
-                        })
+                        });
                 }
             })
     }
 
-    if(isLoading) {
+    if (isLoading) {
         return <Loading></Loading>
     }
 
@@ -108,11 +116,11 @@ const AddProducts = () => {
                                     })}
                                     className="select select-bordered text-sm sm:text-base pr-4 rounded-lg border  w-full py-2">
                                     {
-                                        categories.map(category => 
-                                        <option
-                                        key={category._id}
-                                        value={category.categoryName}
-                                        >{category.categoryName}</option>
+                                        categories.map(category =>
+                                            <option
+                                                key={category._id}
+                                                value={category.categoryName}
+                                            >{category.categoryName}</option>
                                         )
                                     }
                                 </select>
@@ -147,7 +155,7 @@ const AddProducts = () => {
                                     <span className="label-text">Mobile Number:</span>
                                 </label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     placeholder="Enter mobile number"
                                     className="input input-bordered w-full max-w-xs"
                                     {...register("mobile")}
@@ -177,7 +185,16 @@ const AddProducts = () => {
                                     type="number"
                                     placeholder="Purchase Year"
                                     className="input input-bordered w-full max-w-xs"
-                                    {...register("resale_price")}
+                                    {...register("purchase_year")}
+                                />
+                                <label className="label">
+                                    <span className="label-text">Years of Use:</span>
+                                </label>
+                                <input
+                                    type="number"
+                                    placeholder="Purchase Year"
+                                    className="input input-bordered w-full max-w-xs"
+                                    {...register("years_use")}
                                 />
                                 <input
                                     type="submit"

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const AllSellers = () => {
     const { data: sellers = [], refetch } = useQuery({
@@ -9,7 +10,21 @@ const AllSellers = () => {
             const data = await res.json();
             return data;
         }
-    })
+    });
+
+    const handleDeleteSeller = seller => {
+        fetch(`http://localhost:5000/users/seller/${seller._id}`, {
+            method: 'DELETE',
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    refetch();
+                    toast.success('Seller Deleted')
+                }
+            })
+    };
 
     console.log(sellers);
     return (
@@ -28,15 +43,15 @@ const AllSellers = () => {
                     </thead>
                     <tbody>
                         {
-                            sellers.map((seller, i) => 
-                            <tr key={seller._id}
-                            className='hover'>
-                                <th>{i + 1}</th>
-                                <td>{seller.name}</td>
-                                <td>{seller.email}</td>
-                                <td><button className='btn btn-xs btn-primary text-white'>Verify Seller</button></td>
-                                <td><button className='btn btn-xs btn-secondary font-bold'>Delete</button></td>
-                            </tr>)
+                            sellers.map((seller, i) =>
+                                <tr key={seller._id}
+                                    className='hover'>
+                                    <th>{i + 1}</th>
+                                    <td>{seller.name}</td>
+                                    <td>{seller.email}</td>
+                                    <td><button className='btn btn-xs btn-primary text-white'>Verify Seller</button></td>
+                                    <td><button onClick={() => handleDeleteSeller(seller)} className='btn btn-xs btn-secondary font-bold'>Delete</button></td>
+                                </tr>)
                         }
                     </tbody>
                 </table>

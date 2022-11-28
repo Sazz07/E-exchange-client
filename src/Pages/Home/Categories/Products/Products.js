@@ -22,7 +22,7 @@ const Products = ({ cate, setProduct }) => {
                         <label 
                         onClick={() => setProduct(cate)}
                         htmlFor="purchasing-modal" 
-                        className="btn btn-primary">open modal</label>
+                        className="btn btn-primary">Purchase Now</label>
                     </div>
                 </div>
             </div>
