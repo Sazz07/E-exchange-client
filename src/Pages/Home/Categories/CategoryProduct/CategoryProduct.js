@@ -6,12 +6,10 @@ import Products from '../Products/Products';
 import PurchasingModal from '../PurchasingModal/PurchasingModal';
 
 
-
 const CategoryProduct = () => {
     const [product, setProduct] = useState(null);
     const { categoryName, category_id } = useLoaderData();
-    // console.log(products);
-    // console.log(categoryName, category_id);
+    
 
     const { data: category = [], isLoading, refetch } = useQuery({
         queryKey: ['category', category_id],
@@ -25,8 +23,6 @@ const CategoryProduct = () => {
     if(isLoading) {
         return <Loading></Loading>
     }
-
-    // console.log(category);
 
     return (
         <section className='max-w-screen-xl mx-auto my-20'>

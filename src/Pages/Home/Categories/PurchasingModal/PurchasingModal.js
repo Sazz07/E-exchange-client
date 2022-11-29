@@ -4,8 +4,8 @@ import { AuthContext } from '../../../../contexts/AuthProvider';
 
 const PurchasingModal = ({ product, setProduct, refetch }) => {
     const { user } = useContext(AuthContext);
-    const { productName, resale_price, photo } = product;
-    console.log(product);
+    const { productName, resale_price, photo, _id } = product;
+    
     const handleOrder = event => {
         event.preventDefault();
         const form = event.target;
@@ -18,6 +18,7 @@ const PurchasingModal = ({ product, setProduct, refetch }) => {
 
         const order = {
             productName,
+            productId: _id,
             photo,
             userName: name,
             email,

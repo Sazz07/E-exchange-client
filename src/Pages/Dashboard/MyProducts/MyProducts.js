@@ -56,6 +56,7 @@ const MyProducts = () => {
                     <thead>
                         <tr>
                             <th></th>
+                            <th>Product Name</th>
                             <th>Product</th>
                             <th>Price</th>
                             <th>Advertize</th>
@@ -67,13 +68,14 @@ const MyProducts = () => {
                             products && 
                             products?.map((product, i) => <tr key={product._id}>
                                 <th>{i + 1}</th>
-                                <th><div className="avatar">
+                                <td className='text-rose-700 font-semibold'>{product.productName}</td>
+                                <td><div className="avatar">
                                     <div className="w-24 mask mask-squircle">
                                         <img src={product.photo} alt='product' />
                                     </div>
-                                </div></th>
+                                </div></td>
                                 <td>{product.resale_price}</td>
-                                <td><button onClick={() => handleAdvertising(product._id)} className='btn btn-xs btn-primary text-white'>Advertise</button></td>
+                                <td>{!product.isAdvertised === true && <button onClick={() => handleAdvertising(product._id)} className='btn btn-xs btn-primary text-white'>Advertise</button>}</td>
                                 <td>
                                     <button onClick={() => handleDeleteProduct(product)} className="btn btn-xs btn-secondary">Delete</button>
                                 </td>

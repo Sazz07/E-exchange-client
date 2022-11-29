@@ -22,7 +22,7 @@ const Signup = () => {
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        const role = form.role.value;
+        const role =  form.role.value;
 
         // console.log(email, password, role, name);
         setError('');

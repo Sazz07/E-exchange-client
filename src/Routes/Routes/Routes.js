@@ -15,6 +15,9 @@ import Summary from "../../Pages/Home/Summary/Summary";
 import Login from "../../Pages/Login/Login";
 import ErrorElement from "../../Pages/Shared/ErrorElement/ErrorElement";
 import Signup from "../../Pages/Signup/Signup";
+import AdminRoute from "./AdminRoute";
+import PrivateRoute from "./PrivateRoute";
+import SellerRoute from "./SellerRoutes";
 
 const router = createBrowserRouter([
     {
@@ -48,35 +51,35 @@ const router = createBrowserRouter([
             },
             {
                 path: '/category/:id',
-                element: <CategoryProduct></CategoryProduct>,
+                element: <PrivateRoute><CategoryProduct></CategoryProduct></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/category/${params.id}`)
             },
         ]
     },
     {
         path: '/dashboard',
-        element: <DashboardLayout></DashboardLayout>,
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         errorElement: <ErrorElement></ErrorElement>,
         children: [
             {
-                path: '/dashboard',
+                path: '/dashboard/myorders',
                 element: <MyOrders></MyOrders>
             },
             {
                 path: '/dashboard/myproduct',
-                element: <MyProducts></MyProducts>
+                element: <SellerRoute><MyProducts></MyProducts></SellerRoute>
             },
             {
                 path: '/dashboard/allsellers',
-                element: <AllSellers></AllSellers>
+                element: <AdminRoute><AllSellers></AllSellers></AdminRoute>
             },
             {
                 path: '/dashboard/addproduct',
-                element: <AddProducts></AddProducts>
+                element: <SellerRoute><AddProducts></AddProducts></SellerRoute>
             },
             {
                 path: '/dashboard/allbuyers',
-                element: <AllBuyers></AllBuyers>
+                element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
             },
             {
                 path: '/dashboard/allusers',

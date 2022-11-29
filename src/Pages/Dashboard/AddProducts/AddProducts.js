@@ -19,6 +19,17 @@ const AddProducts = () => {
         }
     });
 
+    // const { data: users = [] } = useQuery({
+    //     queryKey: ['users'],
+    //     queryFn: async () => {
+    //         const res = await fetch('http://localhost:5000/users');
+    //         const data = await res.json();
+    //         return data;
+    //     }
+    // });
+
+    console.log(user);
+
     const imageHostKey = process.env.REACT_APP_imgbb_key;
 
     const navigate = useNavigate();
@@ -65,7 +76,7 @@ const AddProducts = () => {
                         .then(result => {
                             console.log(result);
                             toast.success(`${data.productName} is added successfully`);
-                            // navigate('/dashboard/myproducts')
+                            navigate('/dashboard/myproduct');
                         });
                 }
             })
@@ -164,7 +175,7 @@ const AddProducts = () => {
                                     <span className="label-text">Original Price:</span>
                                 </label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     placeholder="Original Price"
                                     className="input input-bordered w-full max-w-xs"
                                     {...register("original_price")}
@@ -173,7 +184,7 @@ const AddProducts = () => {
                                     <span className="label-text">Resale Price:</span>
                                 </label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     placeholder="Resale Price"
                                     className="input input-bordered w-full max-w-xs"
                                     {...register("resale_price")}
@@ -182,7 +193,7 @@ const AddProducts = () => {
                                     <span className="label-text">Purchase Year:</span>
                                 </label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     placeholder="Purchase Year"
                                     className="input input-bordered w-full max-w-xs"
                                     {...register("purchase_year")}
@@ -192,7 +203,7 @@ const AddProducts = () => {
                                 </label>
                                 <input
                                     type="number"
-                                    placeholder="Purchase Year"
+                                    placeholder="Used Year"
                                     className="input input-bordered w-full max-w-xs"
                                     {...register("years_use")}
                                 />
