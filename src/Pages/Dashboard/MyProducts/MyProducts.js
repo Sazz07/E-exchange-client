@@ -6,7 +6,7 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 const MyProducts = () => {
     const { user } = useContext(AuthContext);
 
-    const url = `http://localhost:5000/products/myproducts?email=${user?.email}`;
+    const url = `https://e-exchange.vercel.app/products/myproducts?email=${user?.email}`;
     const { data: products = [], refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
@@ -16,10 +16,10 @@ const MyProducts = () => {
         }
     });
 
-    // console.log(user);
+    
 
     const handleAdvertising = id => {
-        fetch(`http://localhost:5000/products/advertise/${id}`, {
+        fetch(`https://e-exchange.vercel.app/products/advertise/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('resaleToken')}`
@@ -35,9 +35,11 @@ const MyProducts = () => {
     };
 
     const handleDeleteProduct = product => {
-        fetch(`http://localhost:5000/product/${product._id}`, {
+        fetch(`https://e-exchange.vercel.app/product/${product._id}`, {
             method: 'DELETE',
-
+            headers: {
+                authorization: `bearer ${localStorage.getItem('resaleToken')}`
+            }
         })
             .then(res => res.json())
             .then(data => {

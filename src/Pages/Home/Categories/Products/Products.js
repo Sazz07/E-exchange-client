@@ -5,9 +5,8 @@ import { AuthContext } from '../../../../contexts/AuthProvider';
 
 const Products = ({ cate, setProduct }) => {
     const { user } = useContext(AuthContext);
-    const { productName, photo, location, original_price, resale_price, seller_name, years_use, purchase_year, verify, description, condition, sellerPhone, _id } = cate;
+    const { productName, photo, location, original_price, resale_price, seller_name, years_use, purchase_year, verify, description, condition, sellerPhone, _id, categoryName } = cate;
 
-    console.log(_id);
 
     const handleWishList = (id) => {
         const wishData = {
@@ -16,10 +15,11 @@ const Products = ({ cate, setProduct }) => {
             productId: id,
             productName,
             photo,
+            categoryName,
             price: resale_price
         };
 
-        fetch("http://localhost:5000/wishlist", {
+        fetch("https://e-exchange.vercel.app/wishlist", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -29,7 +29,7 @@ const Products = ({ cate, setProduct }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                if(data.acknowledged) {
+                if (data.acknowledged) {
                     toast.success("Added to Wishlist");
                 }
                 else {
@@ -72,7 +72,8 @@ const Products = ({ cate, setProduct }) => {
                         </label>
                         <button
                             onClick={() => handleWishList(_id)}
-                            className='btn btn-outline btn-secondary'>Wishlist</button>
+                            className='btn btn-outline btn-secondary'>Wishlist
+                        </button>
                     </div>
                 </div>
             </div>

@@ -3,17 +3,8 @@ import React from 'react';
 import Loading from '../../Shared/Loading/Loading';
 import AdvertiseCard from './AdvertiseCard/AdvertiseCard';
 
-const AdvertiseProduct = () => {
-    const { data: products = [], refetch, isLoading } = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => {
-            const res = await fetch('http://localhost:5000/advertiseproducts');
-            const data = await res.json();
-            return data;
-        }
-    });
-
-    console.log(products);
+const AdvertiseProduct = ({products, isLoading}) => {
+    
     if (isLoading) {
         return <Loading></Loading>
     }
@@ -27,7 +18,7 @@ const AdvertiseProduct = () => {
                         products.map(product => <AdvertiseCard
                             key={product._id}
                             product={product}
-                        >{product.isAdvertised}</AdvertiseCard>)
+                        ></AdvertiseCard>)
                     }
                 </div>
             </div>

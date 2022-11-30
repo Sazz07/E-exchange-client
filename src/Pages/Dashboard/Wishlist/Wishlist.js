@@ -1,14 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
 const Wishlist = () => {
     const { user } = useContext(AuthContext);
 
-    const url = `http://localhost:5000/wishlist?email=${user?.email}`
+    const url = `https://e-exchange.vercel.app/wishlist?email=${user?.email}`
 
-    const { data: wishlist = [] } = useQuery({
+    const { data: wishlist = [], refetch } = useQuery({
         queryKey: ['wishlist'],
         queryFn: async () => {
             const res = await fetch(url, {
@@ -20,6 +21,22 @@ const Wishlist = () => {
             return data;
         }
     });
+
+    const handleDeleteWishlist = wish => {
+        fetch(`https://e-exchange.vercel.app/wishlist/${wish._id}`, {
+            method: 'DELETE',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('resaleToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    refetch();
+                    toast.success('Items Removed')
+                }
+            })
+    };
 
     return (
         <div>
@@ -51,12 +68,7 @@ const Wishlist = () => {
                                 </td>
                                 <td>{wish?.price}</td>
                                 <td>
-                                    <Link
-                                            to={`/category/${wish?._id}`}
-                                        >
-                                            <button className='btn btn-xs btn-secondary font-bold'>PAY</button>
-                                        </Link>
-                                    
+                                    <button onClick={() => handleDeleteWishlist(wish)} className='btn btn-xs btn-secondary'>Delete</button>
                                 </td>
                             </tr>)
                         };

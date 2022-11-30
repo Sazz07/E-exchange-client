@@ -27,7 +27,7 @@ const PurchasingModal = ({ product, setProduct, refetch }) => {
             meetingLocation
         }
 
-        fetch('http://localhost:5000/orders', {
+        fetch('https://e-exchange.vercel.app/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

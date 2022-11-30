@@ -6,16 +6,14 @@ const AllSellers = () => {
     const { data: sellers = [], refetch } = useQuery({
         queryKey: ['sellers'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/users/seller/seller')
+            const res = await fetch('https://e-exchange.vercel.app/users/seller/seller')
             const data = await res.json();
             return data;
         }
     });
 
-    console.log(sellers);
-
     const handleVerifySeller = email => {
-        fetch(`http://localhost:5000/products/verifySeller/${email}`, {
+        fetch(`https://e-exchange.vercel.app/products/verifySeller/${email}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('resaleToken')}`
@@ -31,7 +29,7 @@ const AllSellers = () => {
     };
 
     const handleDeleteSeller = seller => {
-        fetch(`http://localhost:5000/users/seller/${seller._id}`, {
+        fetch(`https://e-exchange.vercel.app/users/seller/${seller._id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('resaleToken')}`
@@ -46,7 +44,6 @@ const AllSellers = () => {
             })
     };
 
-    console.log(sellers);
     return (
         <div>
             <h3 className='text-3xl my-8 text-center'>All Sellers</h3>

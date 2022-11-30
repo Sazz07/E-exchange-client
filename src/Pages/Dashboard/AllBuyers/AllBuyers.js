@@ -6,16 +6,16 @@ const AllBuyers = () => {
     const { data: buyers = [], refetch } = useQuery({
         queryKey: ['buyers'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/users/buyer/buyer')
+            const res = await fetch('https://e-exchange.vercel.app/users/buyer/buyer')
             const data = await res.json();
             return data;
         }
     });
 
-    console.log(buyers);
+    
 
     const handleDeleteSeller = buyer => {
-        fetch(`http://localhost:5000/users/buyer/${buyer._id}`, {
+        fetch(`https://e-exchange.vercel.app/users/buyer/${buyer._id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('resaleToken')}`

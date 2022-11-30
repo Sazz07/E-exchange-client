@@ -4,7 +4,8 @@ This is a website where user can buy and sell there smartphone. They can get bet
 
 ## Live Link
 
-Hosted in Netlify -> [E-Exchange]()
+Hosted in Netlify -> [E-Exchange](https://resale-f7100.web.app/)
+vercel -> [Server](https://e-exchange.vercel.app/)
 
 ## Git Link 
 
@@ -25,7 +26,7 @@ Hosted in Netlify -> [E-Exchange]()
 
 # My websites different features and functionality :
 
-* Created Admin Dashboard, created an Admin role. An admin can make another admin.
+* Created Admin Dashboard, created an Admin role. An admin can sell buyers sellers. Also can remove them.
 * Implemented jwt token in client side and verify it in server side.
 * Made the full website responsive for mobile device and large device.
 * Created one extra section.

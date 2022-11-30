@@ -2,7 +2,7 @@ import React from 'react';
 
 const AdvertiseCard = ({ product }) => {
     const { photo, productName, description, resale_price, location, condition } = product;
-    console.log(product);
+    
     return (
         <div className="card w-96 shadow-xl image-full">
             <figure><img src={photo} alt="phone" /></figure>

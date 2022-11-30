@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const CheckoutForm = ({ order }) => {
     const [cardError, setCardError] = useState('');
@@ -10,11 +11,11 @@ const CheckoutForm = ({ order }) => {
 
     const stripe = useStripe();
     const elements = useElements();
-    const { price, email, userName, _id } = order;
+    const { price, email, userName, _id, productId } = order;
 
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
-        fetch("http://localhost:5000/create-payment-intent", {
+        fetch("https://e-exchange.vercel.app/create-payment-intent", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -44,7 +45,6 @@ const CheckoutForm = ({ order }) => {
         });
 
         if (error) {
-            console.log(error);
             setCardError(error.message);
         }
         else {
@@ -70,15 +70,15 @@ const CheckoutForm = ({ order }) => {
             return;
         }
         if (paymentIntent.status === "succeeded") {
-            console.log('card info', card);
             // store payment info in the database
             const payment = {
                 price,
                 transactionId: paymentIntent.id,
                 email,
-                orderId: _id
+                orderId: _id,
+                productId: productId
             }
-            fetch('http://localhost:5000/payments', {
+            fetch('https://e-exchange.vercel.app/payments', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
@@ -88,10 +88,10 @@ const CheckoutForm = ({ order }) => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     if (data.insertedId) {
                         setSuccess('Payment Successful');
                         setTransactionId(paymentIntent.id);
+                        toast.success('Payment Done');
                     }
                 })
         }

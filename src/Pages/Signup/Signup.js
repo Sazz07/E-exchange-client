@@ -24,12 +24,11 @@ const Signup = () => {
         const password = form.password.value;
         const role =  form.role.value;
 
-        // console.log(email, password, role, name);
         setError('');
         createUser(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                
                 toast.success('Congratulation. Sign Up complete.');
                 const userInfo = {
                     displayName: name
@@ -53,7 +52,6 @@ const Signup = () => {
         signInWithGoogle()
             .then(result => {
                 const user = result.user;
-                console.log(user);
                 setSignUpEmail(user?.email);
                 saveUser(user?.displayName, user?.email, 'buyer');
                 toast.success('Congratulation. Sign Up complete.');
@@ -69,7 +67,7 @@ const Signup = () => {
             email,
             role
         };
-        fetch('http://localhost:5000/users', {
+        fetch('https://e-exchange.vercel.app/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -78,7 +76,6 @@ const Signup = () => {
         })
             .then(res => res.json())
             .then(data => {
-                // console.log(data);
                 setSignUpEmail(email);
             })
 

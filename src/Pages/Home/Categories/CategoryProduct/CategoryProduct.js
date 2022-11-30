@@ -12,13 +12,14 @@ const CategoryProduct = () => {
     
 
     const { data: category = [], isLoading, refetch } = useQuery({
-        queryKey: ['category', category_id],
+        queryKey: ['category', categoryName],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/category?categoryName=${categoryName}`);
+            const res = await fetch(`https://e-exchange.vercel.app/category?categoryName=${categoryName}`);
             const data = await res.json();
             return data;
         }
     });
+
 
     if(isLoading) {
         return <Loading></Loading>

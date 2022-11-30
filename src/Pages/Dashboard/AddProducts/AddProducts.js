@@ -13,29 +13,17 @@ const AddProducts = () => {
     const { data: categories = [], isLoading } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/categories');
+            const res = await fetch('https://e-exchange.vercel.app/categories');
             const data = await res.json();
             return data;
         }
     });
-
-    // const { data: users = [] } = useQuery({
-    //     queryKey: ['users'],
-    //     queryFn: async () => {
-    //         const res = await fetch('http://localhost:5000/users');
-    //         const data = await res.json();
-    //         return data;
-    //     }
-    // });
-
-    console.log(user);
 
     const imageHostKey = process.env.REACT_APP_imgbb_key;
 
     const navigate = useNavigate();
 
     const handleAddProduct = data => {
-        console.log(data);
         const image = data.image[0];
         const formData = new FormData();
         formData.append('image', image);
@@ -47,7 +35,7 @@ const AddProducts = () => {
             .then(res => res.json())
             .then(imgData => {
                 if (imgData.success) {
-                    console.log(imgData.data.url);
+                    
                     const product = {
                         productName: data.productName,
                         email: user?.email,
@@ -65,7 +53,7 @@ const AddProducts = () => {
                     }
 
                     // save products information to the database
-                    fetch('http://localhost:5000/products', {
+                    fetch('https://e-exchange.vercel.app/products', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
@@ -75,7 +63,6 @@ const AddProducts = () => {
                     })
                         .then(res => res.json())
                         .then(result => {
-                            console.log(result);
                             toast.success(`${data.productName} is added successfully`);
                             navigate('/dashboard/myproduct');
                         });
