@@ -5,7 +5,7 @@ import { AuthContext } from '../../../../contexts/AuthProvider';
 const PurchasingModal = ({ product, setProduct, refetch }) => {
     const { user } = useContext(AuthContext);
     const { productName, resale_price, photo, _id } = product;
-    
+
     const handleOrder = event => {
         event.preventDefault();
         const form = event.target;
@@ -30,13 +30,13 @@ const PurchasingModal = ({ product, setProduct, refetch }) => {
         fetch('http://localhost:5000/orders', {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('resaleToken')}`
             },
             body: JSON.stringify(order)
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 if (data.acknowledged) {
                     setProduct(null);
                     toast.success('Order Confirmed');
@@ -48,6 +48,7 @@ const PurchasingModal = ({ product, setProduct, refetch }) => {
             });
     };
 
+    
     return (
         <div>
             <input type="checkbox" id="purchasing-modal" className="modal-toggle" />

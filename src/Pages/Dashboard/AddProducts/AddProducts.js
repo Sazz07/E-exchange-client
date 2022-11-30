@@ -60,7 +60,8 @@ const AddProducts = () => {
                         original_price: data.original_price,
                         condition: data.condition,
                         purchase_year: data.purchase_year,
-                        years_use: data.years_use
+                        years_use: data.years_use,
+                        sellerPhone: data.mobile,
                     }
 
                     // save products information to the database
@@ -92,9 +93,7 @@ const AddProducts = () => {
                 <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <div className="card-body">
                         <h3 className='text-3xl py-4 text-center'>Add Products</h3>
-                        <form
-                            onSubmit={handleSubmit(handleAddProduct)}
-                        >
+                        <form onSubmit={handleSubmit(handleAddProduct)}>
                             <div className="form-control w-full max-w-xs">
                                 <label className="label">
                                     <span className="label-text">Product Name:</span>
@@ -113,7 +112,7 @@ const AddProducts = () => {
                                 <input
                                     type="file"
                                     placeholder="Upload an image"
-                                    className="input input-bordered w-full max-w-xs"
+                                    className="file-input file-input-primary w-full max-w-xs"
                                     {...register("image", {
                                         required: true
                                     })}
@@ -139,7 +138,9 @@ const AddProducts = () => {
                                     <span className="label-text">Description:</span>
                                 </label>
                                 <textarea className="textarea w-full pb-8 border-gray-300"
-                                    {...register("description")}
+                                    {...register("description", {
+                                        required: true
+                                    })}
                                     placeholder="Description"></textarea>
                                 <label className="label">
                                     <span className="label-text">Condition:</span>
@@ -160,7 +161,9 @@ const AddProducts = () => {
                                     type="text"
                                     placeholder="Location"
                                     className="input input-bordered w-full max-w-xs"
-                                    {...register("location")}
+                                    {...register("location", {
+                                        required: true
+                                    })}
                                 />
                                 <label className="label">
                                     <span className="label-text">Mobile Number:</span>
@@ -169,7 +172,9 @@ const AddProducts = () => {
                                     type="text"
                                     placeholder="Enter mobile number"
                                     className="input input-bordered w-full max-w-xs"
-                                    {...register("mobile")}
+                                    {...register("mobile", {
+                                        required: true
+                                    })}
                                 />
                                 <label className="label">
                                     <span className="label-text">Original Price:</span>
@@ -178,7 +183,9 @@ const AddProducts = () => {
                                     type="text"
                                     placeholder="Original Price"
                                     className="input input-bordered w-full max-w-xs"
-                                    {...register("original_price")}
+                                    {...register("original_price", {
+                                        required: true
+                                    })}
                                 />
                                 <label className="label">
                                     <span className="label-text">Resale Price:</span>
@@ -187,16 +194,20 @@ const AddProducts = () => {
                                     type="text"
                                     placeholder="Resale Price"
                                     className="input input-bordered w-full max-w-xs"
-                                    {...register("resale_price")}
+                                    {...register("resale_price", {
+                                        required: true
+                                    })}
                                 />
                                 <label className="label">
                                     <span className="label-text">Purchase Year:</span>
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     placeholder="Purchase Year"
                                     className="input input-bordered w-full max-w-xs"
-                                    {...register("purchase_year")}
+                                    {...register("purchase_year", {
+                                        required: true
+                                    })}
                                 />
                                 <label className="label">
                                     <span className="label-text">Years of Use:</span>
@@ -205,11 +216,13 @@ const AddProducts = () => {
                                     type="number"
                                     placeholder="Used Year"
                                     className="input input-bordered w-full max-w-xs"
-                                    {...register("years_use")}
+                                    {...register("years_use", {
+                                        required: true
+                                    })}
                                 />
                                 <input
                                     type="submit"
-                                    className="btn mt-4 w-full max-w-xs"
+                                    className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 text-white font-semibold btn mt-4 w-full max-w-xs"
                                     value="Add Product"
                                 />
                             </div>

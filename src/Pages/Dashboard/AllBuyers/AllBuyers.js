@@ -15,9 +15,11 @@ const AllBuyers = () => {
     console.log(buyers);
 
     const handleDeleteSeller = buyer => {
-        fetch(`http://localhost:5000/users/seller/${buyer._id}`, {
+        fetch(`http://localhost:5000/users/buyer/${buyer._id}`, {
             method: 'DELETE',
-
+            headers: {
+                authorization: `bearer ${localStorage.getItem('resaleToken')}`
+            }
         })
             .then(res => res.json())
             .then(data => {

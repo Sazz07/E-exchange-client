@@ -47,10 +47,10 @@ const MyProducts = () => {
                 }
             })
     };
-    console.log(products);
+    
     return (
         <div>
-            <h2 className="text-3xl">My Products</h2>
+            <h2 className="text-3xl text-center mb-4">My Products: {products.length}</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
